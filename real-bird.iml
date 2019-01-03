@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="lwjgl-glfw-natives-macos" level="application" />
+    <orderEntry type="library" name="lwjgl-opengl-natives-macos" level="application" />
+    <orderEntry type="library" name="lwjgl-natives-macos" level="application" />
+    <orderEntry type="library" name="lwjgl-glfw" level="application" />
+    <orderEntry type="library" name="lwjgl-opengl" level="application" />
+    <orderEntry type="library" name="lwjgl" level="application" />
+    <orderEntry type="library" name="lwjgl-stb-natives-macos" level="application" />
+    <orderEntry type="library" name="lwjgl-stb-javadoc" level="application" />
+    <orderEntry type="library" name="lwjgl-stb" level="application" />
+    <orderEntry type="library" name="lwjgl-opengl-javadoc" level="application" />
+  </component>
+</module>
