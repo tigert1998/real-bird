@@ -20,7 +20,7 @@ public class BirdController {
         tapped = true;
     }
 
-    public void setIsStarted(boolean isStarted) {
+    public void setStarted(boolean isStarted) {
         tapped = false;
         vertSpeed = 0;
         vertPosition = 0;
@@ -29,7 +29,7 @@ public class BirdController {
         this.isStarted = isStarted;
     }
 
-    public boolean getIsStarted() {
+    public boolean getStarted() {
         return isStarted;
     }
 

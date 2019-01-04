@@ -11,6 +11,8 @@ public class Settings {
     private static Rectangle skylinePosition = null;
     private static Rectangle[] birdPosturePositions = null;
     private static Rectangle groundPosition = null;
+    private static Rectangle pipeDownPosition = null;
+    private static Rectangle pipeUpPosition = null;
 
     public static Rectangle getSkylinePosition() {
         return skylinePosition;
@@ -24,6 +26,14 @@ public class Settings {
         return groundPosition;
     }
 
+    public static Rectangle getPipeDownPosition() {
+        return pipeDownPosition;
+    }
+
+    public static Rectangle getPipeUpPosition() {
+        return pipeUpPosition;
+    }
+
     static {
         Path settingFilePath = Paths.get(System.getProperty("user.dir"), "resources", "settings.xml");
         File xmlFile = settingFilePath.toFile();
@@ -35,6 +45,8 @@ public class Settings {
 
             skylinePosition = getPositionByName(doc, "skyline");
             groundPosition = getPositionByName(doc, "ground");
+            pipeUpPosition = getPositionByName(doc, "pipe-up");
+            pipeDownPosition = getPositionByName(doc, "pipe-down");
 
             NodeList nodeList = doc.getElementsByTagName("bird-posture");
             birdPosturePositions = new Rectangle[nodeList.getLength()];

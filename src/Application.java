@@ -5,6 +5,8 @@ import bird.*;
 import ground.*;
 import oglutils.*;
 import org.lwjgl.opengl.*;
+import pipe.PipeController;
+import pipe.PipeView;
 import utils.Clock;
 import utils.Settings;
 
@@ -25,6 +27,8 @@ public class Application {
     private BirdView birdView;
     private BirdController birdController;
     private GroundView groundView;
+    private PipeController pipeController;
+    private PipeView pipeView;
 
     private void initGL() {
         if (!glfwInit())
@@ -45,8 +49,10 @@ public class Application {
             if (key == 'Q')
                 System.exit(0);
             else if (key == ' ') {
-                if (!birdController.getIsStarted())
-                    birdController.setIsStarted(true);
+                if (!birdController.getStarted()) {
+                    birdController.setStarted(true);
+                    pipeController.setStarted(true);
+                }
                 birdController.tap();
             }
         });
@@ -75,8 +81,14 @@ public class Application {
                 new Picture(resources, Settings.getGroundPosition()),
                 skyline.getWidth(), skyline.getHeight());
 
+        pipeController = new PipeController();
+        pipeView = new PipeView(pipeController,
+                new Picture(resources, Settings.getPipeUpPosition()),
+                new Picture(resources, Settings.getPipeDownPosition()));
+
         clock.register(birdController::elapse);
         clock.register(groundController::elapse);
+        clock.register(pipeController::elapse);
     }
 
     private void renderLoop() {
@@ -96,6 +108,7 @@ public class Application {
 
             skyline.draw();
             groundView.draw();
+            pipeView.draw();
             birdView.draw();
 
             glfwSwapBuffers(this.window);
