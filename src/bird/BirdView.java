@@ -5,20 +5,23 @@ import oglutils.*;
 public class BirdView {
     private BirdController birdController;
     private Picture[] postures;
-    private float widthInCoord, heightInCoord;
+    private int backgroundWidth, backgroundHeight;
 
-    public BirdView(BirdController birdController, Picture[] postures, float widthInCoord, float heightInCoord) {
+    public BirdView(BirdController birdController, Picture[] postures, int backgroundWidth, int backgroundHeight) {
         this.birdController = birdController;
         this.postures = postures;
-        this.widthInCoord = widthInCoord;
-        this.heightInCoord = heightInCoord;
+        this.backgroundWidth = backgroundWidth;
+        this.backgroundHeight = backgroundHeight;
     }
 
     public void draw() {
         int postureID = birdController.getPostureID();
         Picture posture = postures[postureID];
-        posture.place(-widthInCoord / 2, birdController.getVertPosition() - heightInCoord / 2,
-                widthInCoord, heightInCoord, 0.5f);
+        float postureWidth = posture.getWidth();
+        float postureHeight = posture.getHeight();
+        posture.place(-postureWidth / 2, -postureHeight / 2 + birdController.getVertPosition() * backgroundHeight,
+                postureWidth, postureHeight,
+                backgroundWidth, backgroundHeight, -0.5f, birdController.getAngle());
         posture.draw();
     }
 }

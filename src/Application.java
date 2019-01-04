@@ -57,7 +57,9 @@ public class Application {
         birdController = new BirdController();
         birdView = new BirdView(birdController, new Picture[] {
                 new Picture(resources, 264, 180, 17, 12),
-        }, 34.f / 144, 24.f / 256);
+                new Picture(resources, 264, 154, 17, 12),
+                new Picture(resources, 223, 120, 17, 12)
+        }, 144, 256);
 
         clock.register(birdController::elapse);
     }
@@ -67,9 +69,9 @@ public class Application {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClearColor(0, 1.0f, 0, 1.0f);
 
-        Double lastTime = null;
+        Float lastTime = null;
         while (!glfwWindowShouldClose(this.window)) {
-            double currentTime = glfwGetTime();
+            float currentTime = (float) glfwGetTime();
             if (lastTime != null) clock.elapse(currentTime - lastTime);
             lastTime = currentTime;
 
