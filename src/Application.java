@@ -4,6 +4,8 @@ import bird.*;
 import ground.*;
 import oglutils.*;
 import org.lwjgl.opengl.*;
+import utils.Clock;
+import utils.Settings;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL41C.*;
@@ -12,7 +14,7 @@ import static org.lwjgl.opengl.GL41C.*;
 public class Application {
     private static final int WIDTH = 432;
     private static final int HEIGHT = 768;
-    private static final Path RESOURCE_PATH = Paths.get("/Users/tigertang/Projects/real-bird/resources");
+    private static final Path RESOURCE_PATH = Paths.get(System.getProperty("user.dir"), "resources");
 
     private long window;
 
@@ -52,19 +54,19 @@ public class Application {
 
     private void loadResources() {
         Picture resources = new Picture(RESOURCE_PATH.resolve("textures.png"));
-        skyline = new Picture(resources, 0, 0, 144, 256);
+        skyline = new Picture(resources, Settings.getSkylinePosition());
         skyline.place(-1, -1, 2, 2, .5f);
 
         birdController = new BirdController();
         birdView = new BirdView(birdController, new Picture[] {
-                new Picture(resources, 264, 180, 17, 12),
-                new Picture(resources, 264, 154, 17, 12),
-                new Picture(resources, 223, 120, 17, 12)
+                new Picture(resources, Settings.getBirdPosturePositions()[0]),
+                new Picture(resources, Settings.getBirdPosturePositions()[1]),
+                new Picture(resources, Settings.getBirdPosturePositions()[2])
         }, 144, 256);
 
         GroundController groundController = new GroundController();
         groundView = new GroundView(groundController,
-                new Picture(resources, 146, 200, 154, 56),
+                new Picture(resources, Settings.getGroundPosition()),
                 144, 256);
 
         clock.register(birdController::elapse);

@@ -1,0 +1,36 @@
+<settings>
+    <skyline>
+        <x>0</x>
+        <y>0</y>
+        <width>144</width>
+        <height>256</height>
+    </skyline>
+
+    <bird-postures>
+        <bird-posture idx="0">
+            <x>264</x>
+            <y>180</y>
+            <width>17</width>
+            <height>12</height>
+        </bird-posture>
+        <bird-posture idx="1">
+            <x>264</x>
+            <y>154</y>
+            <width>17</width>
+            <height>12</height>
+        </bird-posture>
+        <bird-posture idx="2">
+            <x>223</x>
+            <y>120</y>
+            <width>17</width>
+            <height>12</height>
+        </bird-posture>
+    </bird-postures>
+
+    <ground>
+        <x>146</x>
+        <y>200</y>
+        <width>154</width>
+        <height>56</height>
+    </ground>
+</settings>

@@ -3,7 +3,7 @@ package bird;
 public class BirdController {
     private static final float JUMP_SPEED = .7f;
     private static final float FALLING_CONSTANT = 3.1f;
-    private static final float MIN_SPEED = -1.4f;
+    private static final float MIN_SPEED = -1.3f;
     private static final int TOTAL_POSTURES = 3;
     private static final float SWITCH_POSTURE_DELTA_TIME = 0.1f;
     private static final float RAISE_HEAD_THRESHOLD_SPEED = 0.4f;
