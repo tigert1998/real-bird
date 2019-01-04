@@ -1,8 +1,8 @@
 import java.nio.file.*;
 
-import bird.BirdController;
-import bird.BirdView;
-import oglutils.Picture;
+import bird.*;
+import ground.*;
+import oglutils.*;
 import org.lwjgl.opengl.*;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -21,6 +21,7 @@ public class Application {
     private Clock clock = new Clock();
     private BirdView birdView;
     private BirdController birdController;
+    private GroundView groundView;
 
     private void initGL() {
         if (!glfwInit())
@@ -52,7 +53,7 @@ public class Application {
     private void loadResources() {
         Picture resources = new Picture(RESOURCE_PATH.resolve("textures.png"));
         skyline = new Picture(resources, 0, 0, 144, 256);
-        skyline.place(-1, -1, 2, 2, 1);
+        skyline.place(-1, -1, 2, 2, .5f);
 
         birdController = new BirdController();
         birdView = new BirdView(birdController, new Picture[] {
@@ -61,11 +62,19 @@ public class Application {
                 new Picture(resources, 223, 120, 17, 12)
         }, 144, 256);
 
+        GroundController groundController = new GroundController();
+        groundView = new GroundView(groundController,
+                new Picture(resources, 146, 200, 154, 56),
+                144, 256);
+
         clock.register(birdController::elapse);
+        clock.register(groundController::elapse);
     }
 
     private void renderLoop() {
         glEnable(GL_BLEND);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClearColor(0, 1.0f, 0, 1.0f);
 
@@ -78,6 +87,7 @@ public class Application {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             skyline.draw();
+            groundView.draw();
             birdView.draw();
 
             glfwSwapBuffers(this.window);

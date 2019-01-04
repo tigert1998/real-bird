@@ -21,7 +21,7 @@ public class BirdView {
         float postureHeight = posture.getHeight();
         posture.place(-postureWidth / 2, -postureHeight / 2 + birdController.getVertPosition() * backgroundHeight,
                 postureWidth, postureHeight,
-                backgroundWidth, backgroundHeight, -0.5f, birdController.getAngle());
+                backgroundWidth, backgroundHeight, -.5f, birdController.getAngle());
         posture.draw();
     }
 }

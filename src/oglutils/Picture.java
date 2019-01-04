@@ -101,38 +101,40 @@ public class Picture {
         return height;
     }
 
-    public void place(float x, float y, float width, float height,
-                      float backgroundWidth, float backgroundHeight, float distance, float angle) {
-        Pair origin = new Pair(x + width / 2, y + height / 2);
-        Pair rightTop = rotate(new Pair(x + width, y + height), origin, angle);
-        Pair leftTop = rotate(new Pair(x, y + height), origin, angle);
-        Pair leftBottom = rotate(new Pair(x, y), origin, angle);
-        Pair rightBottom = rotate(new Pair(x + width, y), origin, angle);
+    public void place(float xInScreen, float yInScreen,
+                      float widthInScreen, float heightInScreen,
+                      float screenWidth, float screenHeight,
+                      float z, float angle) {
+        Pair origin = new Pair(xInScreen + widthInScreen / 2, yInScreen + heightInScreen / 2);
+        Pair rightTop = rotate(new Pair(xInScreen + widthInScreen, yInScreen + heightInScreen), origin, angle);
+        Pair leftTop = rotate(new Pair(xInScreen, yInScreen + heightInScreen), origin, angle);
+        Pair leftBottom = rotate(new Pair(xInScreen, yInScreen), origin, angle);
+        Pair rightBottom = rotate(new Pair(xInScreen + widthInScreen, yInScreen), origin, angle);
 
-        Pair divider = new Pair(backgroundWidth / 2, backgroundHeight / 2);
+        Pair divider = new Pair(screenWidth / 2, screenHeight / 2);
         rightTop.divide(divider);
         leftTop.divide(divider);
         leftBottom.divide(divider);
         rightBottom.divide(divider);
 
         float[] vertices = {
-                leftBottom.x, leftBottom.y, -distance, getTexCoordX(), getTexCoordY(),
-                rightBottom.x, rightBottom.y, -distance, getTexCoordX() + getTexCoordW(), getTexCoordY(),
-                leftTop.x, leftTop.y, -distance, getTexCoordX(), getTexCoordY() + getTexCoordH(),
-                rightTop.x, rightTop.y, -distance, getTexCoordX() + getTexCoordW(), getTexCoordY() + getTexCoordH()
+                leftBottom.x, leftBottom.y, z, getTexCoordX(), getTexCoordY(),
+                rightBottom.x, rightBottom.y, z, getTexCoordX() + getTexCoordW(), getTexCoordY(),
+                leftTop.x, leftTop.y, z, getTexCoordX(), getTexCoordY() + getTexCoordH(),
+                rightTop.x, rightTop.y, z, getTexCoordX() + getTexCoordW(), getTexCoordY() + getTexCoordH()
         };
 
         generateVertexBuffers(vertices);
     }
 
-    public void place(float x, float y, float width, float height, float distance) {
+    public void place(float x, float y, float width, float height, float z) {
         releaseVertexBuffers();
 
         float[] vertices = {
-                x, y, -distance, getTexCoordX(), getTexCoordY(),
-                x + width, y, -distance, getTexCoordX() + getTexCoordW(), getTexCoordY(),
-                x, y + height, -distance, getTexCoordX(), getTexCoordY() + getTexCoordH(),
-                x + width, y + height, -distance, getTexCoordX() + getTexCoordW(), getTexCoordY() + getTexCoordH()
+                x, y, z, getTexCoordX(), getTexCoordY(),
+                x + width, y, z, getTexCoordX() + getTexCoordW(), getTexCoordY(),
+                x, y + height, z, getTexCoordX(), getTexCoordY() + getTexCoordH(),
+                x + width, y + height, z, getTexCoordX() + getTexCoordW(), getTexCoordY() + getTexCoordH()
         };
 
         generateVertexBuffers(vertices);
