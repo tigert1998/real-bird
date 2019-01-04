@@ -14,35 +14,47 @@ public class BirdController {
     private int postureID = 0;
     private float currentDeltaTime = 0;
 
+    private boolean isStarted = false;
+
     public void tap() {
         tapped = true;
     }
 
-    public void clear() {
+    public void setIsStarted(boolean isStarted) {
         tapped = false;
         vertSpeed = 0;
         vertPosition = 0;
         postureID = 0;
         currentDeltaTime = 0;
+        this.isStarted = isStarted;
+    }
+
+    public boolean getIsStarted() {
+        return isStarted;
     }
 
     public Void elapse(Float time) {
-        currentDeltaTime += time;
-        if (currentDeltaTime > SWITCH_POSTURE_DELTA_TIME) {
-            int deltaPostureID = (int) Math.floor(currentDeltaTime / SWITCH_POSTURE_DELTA_TIME);
-            if (vertSpeed > MIN_SPEED) {
-                postureID += deltaPostureID;
-                postureID %= TOTAL_POSTURES;
+        if (isStarted) {
+            currentDeltaTime += time;
+            if (currentDeltaTime > SWITCH_POSTURE_DELTA_TIME) {
+                int deltaPostureID = (int) Math.floor(currentDeltaTime / SWITCH_POSTURE_DELTA_TIME);
+                if (vertSpeed > MIN_SPEED) {
+                    postureID += deltaPostureID;
+                    postureID %= TOTAL_POSTURES;
+                }
+                currentDeltaTime -= SWITCH_POSTURE_DELTA_TIME * deltaPostureID;
             }
-            currentDeltaTime -= SWITCH_POSTURE_DELTA_TIME * deltaPostureID;
+            if (tapped) {
+                vertSpeed = JUMP_SPEED;
+            }
+            vertPosition += vertSpeed * time;
+            vertSpeed -= FALLING_CONSTANT * time;
+            vertSpeed = Math.max(vertSpeed, MIN_SPEED);
+            tapped = false;
+        } else {
+            currentDeltaTime += time;
+            vertPosition = (float) Math.sin(currentDeltaTime * 3) * 0.03f;
         }
-        if (tapped) {
-            vertSpeed = JUMP_SPEED;
-        }
-        vertPosition += vertSpeed * time;
-        vertSpeed -= FALLING_CONSTANT * time;
-        vertSpeed = Math.max(vertSpeed, MIN_SPEED);
-        tapped = false;
         return null;
     }
 
@@ -51,10 +63,13 @@ public class BirdController {
     }
 
     int getPostureID() {
+        if (!isStarted) return 1;
         return postureID;
     }
 
     float getAngle() {
+        if (!isStarted)
+            return 0;
         if (vertSpeed >= RAISE_HEAD_THRESHOLD_SPEED)
             return (float) Math.PI * 0.1f;
         return (float) Math.PI * 0.6f * (vertSpeed - MIN_SPEED) / (RAISE_HEAD_THRESHOLD_SPEED - MIN_SPEED)

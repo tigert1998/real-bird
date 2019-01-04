@@ -33,4 +33,18 @@
         <width>154</width>
         <height>56</height>
     </ground>
+
+    <pipe-up>
+        <x>302</x>
+        <y>121</y>
+        <width>26</width>
+        <height>135</height>
+    </pipe-up>
+
+    <pipe-down>
+        <x>330</x>
+        <y>135</y>
+        <width>26</width>
+        <height>121</height>
+    </pipe-down>
 </settings>

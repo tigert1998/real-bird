@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.nio.file.*;
 
 import bird.*;
@@ -43,8 +44,11 @@ public class Application {
         glfwSetKeyCallback(this.window, (window, key, scanCode, action, mods) -> {
             if (key == 'Q')
                 System.exit(0);
-            else if (key == ' ')
+            else if (key == ' ') {
+                if (!birdController.getIsStarted())
+                    birdController.setIsStarted(true);
                 birdController.tap();
+            }
         });
         glfwMakeContextCurrent(this.window);
         glfwShowWindow(this.window);
@@ -54,7 +58,9 @@ public class Application {
 
     private void loadResources() {
         Picture resources = new Picture(RESOURCE_PATH.resolve("textures.png"));
-        skyline = new Picture(resources, Settings.getSkylinePosition());
+        Rectangle skylinePosition = Settings.getSkylinePosition();
+
+        skyline = new Picture(resources, skylinePosition);
         skyline.place(-1, -1, 2, 2, .5f);
 
         birdController = new BirdController();
@@ -62,12 +68,12 @@ public class Application {
                 new Picture(resources, Settings.getBirdPosturePositions()[0]),
                 new Picture(resources, Settings.getBirdPosturePositions()[1]),
                 new Picture(resources, Settings.getBirdPosturePositions()[2])
-        }, 144, 256);
+        }, skyline.getWidth(), skyline.getHeight());
 
         GroundController groundController = new GroundController();
         groundView = new GroundView(groundController,
                 new Picture(resources, Settings.getGroundPosition()),
-                144, 256);
+                skyline.getWidth(), skyline.getHeight());
 
         clock.register(birdController::elapse);
         clock.register(groundController::elapse);
