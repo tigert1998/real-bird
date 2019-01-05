@@ -27,12 +27,19 @@ public class BirdController {
     private PhysicsPlaygroundHandler handler;
 
     private void updateHandler() {
+        float xScale = Settings.getSkylinePosition().width / 2.f;
+        float yScale = Settings.getSkylinePosition().height / 2.f;
+        Point scale = new Point(xScale, yScale);
+
         handler.convexPoints = PhysicsPlaygroundHandler.constructConvexPoints(
-                -BIRD_WIDTH / 2.f, -BIRD_HEIGHT / 2.f + getVertPosition(),
-                BIRD_WIDTH, BIRD_HEIGHT);
-        Point origin = new Point(0, getVertPosition());
+                (-BIRD_WIDTH / 2.f) * xScale,
+                (-BIRD_HEIGHT / 2.f + getVertPosition()) * yScale,
+                BIRD_WIDTH * xScale,
+                BIRD_HEIGHT * yScale);
+        Point origin = new Point(0, getVertPosition() * yScale);
         for (int i = 0; i < handler.convexPoints.size(); i++) {
             handler.convexPoints.set(i, MathComplement.rotate(handler.convexPoints.get(i), origin, getAngle()));
+            handler.convexPoints.get(i).divide(scale);
         }
     }
 

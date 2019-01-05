@@ -102,16 +102,16 @@ public class Application {
             if (lastTime != null) clock.elapse(currentTime - lastTime);
             lastTime = currentTime;
 
-            if (physicsPlayground.hit()) {
-                System.exit(0);
-            }
-
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             skyline.draw();
             groundView.draw();
             pipeView.draw();
             birdView.draw();
+
+            if (physicsPlayground.hit()) {
+                System.exit(0);
+            }
 
             glfwSwapBuffers(this.window);
             glfwPollEvents();
