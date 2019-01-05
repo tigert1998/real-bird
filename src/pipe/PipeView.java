@@ -1,6 +1,7 @@
 package pipe;
 
 import oglutils.*;
+import utils.*;
 
 public class PipeView {
     private Picture pipeUp, pipeDown;
@@ -14,10 +15,12 @@ public class PipeView {
 
     public void draw() {
         pipeController.pipeCornerPositions.forEach(pair -> {
-            pipeDown.place(pair.x, pair.y, PipeController.PIPE_WIDTH, PipeController.PIPE_DOWN_HEIGHT, 0.3f);
+            pipeDown.place(pair.x, pair.y,
+                    Settings.PIPE_RELATIVE_WIDTH,
+                    Settings.PIPE_DOWN_RELATIVE_HEIGHT, 0.3f);
             pipeDown.draw();
-            pipeUp.place(pair.x, pair.y + PipeController.PIPE_DOWN_HEIGHT + PipeController.VERT_GAP,
-                    PipeController.PIPE_WIDTH, PipeController.PIPE_UP_HEIGHT, 0.3f);
+            pipeUp.place(pair.x, pair.y + Settings.PIPE_DOWN_RELATIVE_HEIGHT + PipeController.VERT_GAP,
+                    Settings.PIPE_RELATIVE_WIDTH, Settings.PIPE_UP_RELATIVE_HEIGHT, 0.3f);
             pipeUp.draw();
         });
     }

@@ -18,6 +18,8 @@ public class Application {
     private static final Path RESOURCE_PATH = Paths.get(System.getProperty("user.dir"), "resources");
     private static final PhysicsPlayground physicsPlayground = PhysicsPlayground.shared;
 
+    private State state = State.READY;
+
     private long window;
 
     private Picture skyline;
@@ -25,9 +27,17 @@ public class Application {
     private Clock clock = new Clock();
     private BirdView birdView;
     private BirdController birdController;
+    private GroundController groundController;
     private GroundView groundView;
     private PipeController pipeController;
     private PipeView pipeView;
+
+    private void setState(State state) {
+        this.state = state;
+        birdController.setState(state);
+        pipeController.setState(state);
+        groundController.setState(state);
+    }
 
     private void initGL() {
         if (!glfwInit())
@@ -48,10 +58,8 @@ public class Application {
             if (key == 'Q')
                 System.exit(0);
             else if (key == ' ') {
-                if (!birdController.getStarted()) {
-                    birdController.setStarted(true);
-                    pipeController.setStarted(true);
-                }
+                if (state == State.READY)
+                    setState(State.STARTED);
                 birdController.tap();
             }
         });
@@ -75,7 +83,7 @@ public class Application {
                 new Picture(resources, Settings.getBirdPosturePositions()[2])
         });
 
-        GroundController groundController = new GroundController();
+        groundController = new GroundController();
         groundView = new GroundView(groundController,
                 new Picture(resources, Settings.getGroundPosition()));
 
@@ -109,8 +117,8 @@ public class Application {
             pipeView.draw();
             birdView.draw();
 
-            if (physicsPlayground.hit()) {
-                System.exit(0);
+            if (state != State.ENDED && physicsPlayground.hit()) {
+                setState(State.ENDED);
             }
 
             glfwSwapBuffers(this.window);

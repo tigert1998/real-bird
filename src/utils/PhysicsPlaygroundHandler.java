@@ -35,17 +35,8 @@ public class PhysicsPlaygroundHandler {
     }
 
     public boolean intersects(PhysicsPlaygroundHandler handler) {
-        int aSize = convexPoints.size();
-        int bSize = handler.convexPoints.size();
-        for (int i = 0; i < aSize; i++) {
-            Segment aSegment = new Segment(convexPoints.get(i), convexPoints.get((i + 1) % aSize));
-            for (int j = 0; j < bSize; j++) {
-                Segment bSegment = new Segment(handler.convexPoints.get(j), handler.convexPoints.get((j + 1) % bSize));
-                if (aSegment.intersects(bSegment)) {
-                    return true;
-                }
-            }
-        }
+        for (Point point : convexPoints) if (pointIsInner(point, handler)) return true;
+        for (Point point : handler.convexPoints) if (pointIsInner(point, this)) return true;
         return false;
     }
 

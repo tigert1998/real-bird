@@ -5,17 +5,14 @@ import utils.*;
 import java.util.*;
 
 public class BirdController {
-    private static final float JUMP_SPEED = .7f;
-    private static final float FALLING_CONSTANT = 3.1f;
-    private static final float MIN_SPEED = -1.3f;
+    private static final float JUMP_SPEED = .9f;
+    private static final float FALLING_CONSTANT = 3.2f;
+    private static final float MIN_SPEED = -1.4f;
     private static final int TOTAL_POSTURES = 3;
     private static final float SWITCH_POSTURE_DELTA_TIME = 0.1f;
     private static final float RAISE_HEAD_THRESHOLD_SPEED = 0.4f;
 
-    private static final float BIRD_WIDTH =
-            2.f * Settings.getBirdPosturePositions()[0].width / Settings.getSkylinePosition().width;
-    private static final float BIRD_HEIGHT =
-            2.f * Settings.getBirdPosturePositions()[0].height / Settings.getSkylinePosition().height;
+    private static final float HIT_SIDE_LENGTH = Settings.BIRD_RELATIVE_HEIGHT;
 
     private boolean tapped = false;
     private float vertSpeed = 0;
@@ -23,24 +20,14 @@ public class BirdController {
     private int postureID = 0;
     private float currentDeltaTime = 0;
 
-    private boolean isStarted = false;
     private PhysicsPlaygroundHandler handler;
 
     private void updateHandler() {
-        float xScale = Settings.getSkylinePosition().width / 2.f;
-        float yScale = Settings.getSkylinePosition().height / 2.f;
-        Point scale = new Point(xScale, yScale);
-
         handler.convexPoints = PhysicsPlaygroundHandler.constructConvexPoints(
-                (-BIRD_WIDTH / 2.f) * xScale,
-                (-BIRD_HEIGHT / 2.f + getVertPosition()) * yScale,
-                BIRD_WIDTH * xScale,
-                BIRD_HEIGHT * yScale);
-        Point origin = new Point(0, getVertPosition() * yScale);
-        for (int i = 0; i < handler.convexPoints.size(); i++) {
-            handler.convexPoints.set(i, MathComplement.rotate(handler.convexPoints.get(i), origin, getAngle()));
-            handler.convexPoints.get(i).divide(scale);
-        }
+                (-HIT_SIDE_LENGTH / 2.f),
+                (-HIT_SIDE_LENGTH / 2.f + getVertPosition()),
+                HIT_SIDE_LENGTH,
+                HIT_SIDE_LENGTH);
     }
 
     public BirdController() {
@@ -48,46 +35,62 @@ public class BirdController {
         updateHandler();
     }
 
+    private State state = State.READY;
+
+    public void setState(State state) {
+        this.state = state;
+        switch (state) {
+            case READY:
+                return;
+            case STARTED:
+                tapped = false;
+                vertSpeed = 0;
+                vertPosition = 0;
+                postureID = 0;
+                currentDeltaTime = 0;
+            case ENDED:
+                tapped = false;
+                vertSpeed = 0;
+        }
+    }
+
     public void tap() {
         tapped = true;
     }
 
-    public void setStarted(boolean isStarted) {
-        tapped = false;
-        vertSpeed = 0;
-        vertPosition = 0;
-        postureID = 0;
-        currentDeltaTime = 0;
-        this.isStarted = isStarted;
-    }
-
-    public boolean getStarted() {
-        return isStarted;
-    }
-
     public Void elapse(Float time) {
-        if (isStarted) {
-            currentDeltaTime += time;
-            if (currentDeltaTime > SWITCH_POSTURE_DELTA_TIME) {
-                int deltaPostureID = (int) Math.floor(currentDeltaTime / SWITCH_POSTURE_DELTA_TIME);
-                if (vertSpeed > MIN_SPEED) {
-                    postureID += deltaPostureID;
-                    postureID %= TOTAL_POSTURES;
+        switch (state) {
+            case READY:
+                currentDeltaTime += time;
+                vertPosition = (float) Math.sin(currentDeltaTime * 3) * 0.03f;
+                updateHandler();
+                return null;
+            case STARTED:
+                currentDeltaTime += time;
+                if (currentDeltaTime > SWITCH_POSTURE_DELTA_TIME) {
+                    int deltaPostureID = (int) Math.floor(currentDeltaTime / SWITCH_POSTURE_DELTA_TIME);
+                    if (vertSpeed > MIN_SPEED) {
+                        postureID += deltaPostureID;
+                        postureID %= TOTAL_POSTURES;
+                    }
+                    currentDeltaTime -= SWITCH_POSTURE_DELTA_TIME * deltaPostureID;
                 }
-                currentDeltaTime -= SWITCH_POSTURE_DELTA_TIME * deltaPostureID;
-            }
-            if (tapped) {
-                vertSpeed = JUMP_SPEED;
-            }
-            vertPosition += vertSpeed * time;
-            vertSpeed -= FALLING_CONSTANT * time;
-            vertSpeed = Math.max(vertSpeed, MIN_SPEED);
-            tapped = false;
-        } else {
-            currentDeltaTime += time;
-            vertPosition = (float) Math.sin(currentDeltaTime * 3) * 0.03f;
+                if (tapped) {
+                    vertSpeed = JUMP_SPEED;
+                }
+                vertPosition += vertSpeed * time;
+                vertSpeed -= FALLING_CONSTANT * time;
+                vertSpeed = Math.max(vertSpeed, MIN_SPEED);
+                tapped = false;
+                updateHandler();
+                return null;
+            case ENDED:
+                vertSpeed -= FALLING_CONSTANT * time;
+                vertSpeed = Math.max(vertSpeed, MIN_SPEED);
+                vertPosition += vertSpeed * time;
+                vertPosition = Math.max(vertPosition, Settings.GROUND_RELATIVE_HEIGHT - 1);
+                return null;
         }
-        updateHandler();
         return null;
     }
 
@@ -96,16 +99,23 @@ public class BirdController {
     }
 
     int getPostureID() {
-        if (!isStarted) return 1;
-        return postureID;
+        switch (state) {
+            case READY:
+                return 1;
+            default:
+                return postureID;
+        }
     }
 
     float getAngle() {
-        if (!isStarted)
-            return 0;
-        if (vertSpeed >= RAISE_HEAD_THRESHOLD_SPEED)
-            return (float) Math.PI * 0.1f;
-        return (float) Math.PI * 0.6f * (vertSpeed - MIN_SPEED) / (RAISE_HEAD_THRESHOLD_SPEED - MIN_SPEED)
-                - 0.5f * (float) Math.PI;
+        switch (state) {
+            case READY:
+                return 0;
+            default:
+                if (vertSpeed >= RAISE_HEAD_THRESHOLD_SPEED)
+                    return (float) Math.PI * 0.1f;
+                return (float) Math.PI * 0.6f * (vertSpeed - MIN_SPEED) / (RAISE_HEAD_THRESHOLD_SPEED - MIN_SPEED)
+                        - 0.5f * (float) Math.PI;
+        }
     }
 }

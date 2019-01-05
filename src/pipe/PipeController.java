@@ -8,15 +8,9 @@ public class PipeController {
     final static float VERT_GAP = .45f;
     private final static float MOVE_SPEED = .8f;
     private final static float HORI_GAP = 1.2f;
-    private final static float MAX_RAND_Y = .4f;
+    private final static float MAX_RAND_Y = -.6f;
+    private final static float MIN_RAND_Y = -1.3f;
     private final static int QUEUE_SIZE = 3;
-
-    final static float PIPE_WIDTH =
-            2.f * Settings.getPipeUpPosition().width / Settings.getSkylinePosition().width;
-    final static float PIPE_DOWN_HEIGHT =
-            2.f * Settings.getPipeDownPosition().height / Settings.getSkylinePosition().height;
-    final static float PIPE_UP_HEIGHT =
-            2.f * Settings.getPipeUpPosition().height / Settings.getSkylinePosition().height;
 
     private final static PhysicsPlayground physicsPlayground = PhysicsPlayground.shared;
 
@@ -25,10 +19,10 @@ public class PipeController {
     private Deque<PhysicsPlaygroundHandler> pipeDownHandlers = new ArrayDeque<>();
     private Deque<PhysicsPlaygroundHandler> pipeUpHandlers = new ArrayDeque<>();
 
-    private boolean isStarted = false;
+    private State state = State.READY;
 
     private static float randomPipeY() {
-        return (float) Math.random() * MAX_RAND_Y - 1;
+        return (float) Math.random() * (MAX_RAND_Y - MIN_RAND_Y) + MIN_RAND_Y;
     }
 
     private void fillPipeDeque() {
@@ -44,12 +38,15 @@ public class PipeController {
         pipeDownHandlers.addLast(physicsPlayground.addHandler(false,
                 PhysicsPlaygroundHandler.constructConvexPoints(
                         point.x, point.y,
-                        PIPE_WIDTH, PIPE_DOWN_HEIGHT
+                        Settings.PIPE_RELATIVE_WIDTH,
+                        Settings.PIPE_DOWN_RELATIVE_HEIGHT
                 )));
         pipeUpHandlers.addLast(physicsPlayground.addHandler(false,
                 PhysicsPlaygroundHandler.constructConvexPoints(
-                        point.x, point.y + PIPE_DOWN_HEIGHT + VERT_GAP,
-                        PIPE_WIDTH, PIPE_UP_HEIGHT
+                        point.x,
+                        point.y + Settings.PIPE_DOWN_RELATIVE_HEIGHT + VERT_GAP,
+                        Settings.PIPE_RELATIVE_WIDTH,
+                        Settings.PIPE_UP_RELATIVE_HEIGHT
                 )));
     }
 
@@ -60,7 +57,7 @@ public class PipeController {
     }
 
     private void clearRedundantPipes() {
-        while (!pipeCornerPositions.isEmpty() && pipeCornerPositions.getFirst().x < -1 -PIPE_WIDTH) {
+        while (!pipeCornerPositions.isEmpty() && pipeCornerPositions.getFirst().x < -1 -Settings.PIPE_RELATIVE_WIDTH) {
             pipeCornerPositions.pollFirst();
             var handler = pipeUpHandlers.pollFirst();
             PhysicsPlayground.shared.removeHandler(false, handler);
@@ -96,15 +93,27 @@ public class PipeController {
         fillPipeDeque();
     }
 
-    public void setStarted(boolean isStarted) {
-        this.isStarted = isStarted;
-        if (isStarted) {
-            fillPipeDeque();
+    public void setState(State state) {
+        this.state = state;
+        switch (state) {
+            case READY:
+                break;
+            case STARTED:
+                fillPipeDeque();
+            case ENDED:
+                break;
         }
     }
 
     public Void elapse(Float time) {
-        if (!isStarted) return null;
+        switch (state) {
+            case READY:
+                return null;
+            case STARTED:
+                break;
+            case ENDED:
+                return null;
+        }
         updatePipes(time);
         return null;
     }

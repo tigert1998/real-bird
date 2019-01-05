@@ -73,4 +73,17 @@ public class Settings {
         Element element = (Element) document.getElementsByTagName(name).item(0);
         return getPositionByElement(element);
     }
+
+    public static final float BIRD_RELATIVE_WIDTH =
+            2.f * getBirdPosturePositions()[0].width / getSkylinePosition().width;
+    public static final float BIRD_RELATIVE_HEIGHT =
+            2.f * getBirdPosturePositions()[0].height / getSkylinePosition().height;
+    public final static float PIPE_RELATIVE_WIDTH =
+            2.f * getPipeUpPosition().width / getSkylinePosition().width;
+    public final static float PIPE_DOWN_RELATIVE_HEIGHT =
+            2.f * getPipeDownPosition().height / getSkylinePosition().height;
+    public final static float PIPE_UP_RELATIVE_HEIGHT =
+            2.f * getPipeUpPosition().height / getSkylinePosition().height;
+    public final static float GROUND_RELATIVE_HEIGHT =
+            2.f * getGroundPosition().height / getSkylinePosition().height;
 }
