@@ -37,4 +37,13 @@ public class PhysicsPlaygroundHandler {
         }
         return false;
     }
+
+    public static List<Point> constructConvexPoints(float x, float y, float width, float height) {
+        List<Point> convexPoints = new ArrayList<>();
+        convexPoints.add(new Point(x, y));
+        convexPoints.add(new Point(x + width, y));
+        convexPoints.add(new Point(x + width, y + height));
+        convexPoints.add(new Point(x, y + height));
+        return convexPoints;
+    }
 }

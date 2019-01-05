@@ -2,7 +2,7 @@ package bird;
 
 import utils.*;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class BirdController {
     private static final float JUMP_SPEED = .7f;
@@ -27,7 +27,14 @@ public class BirdController {
     private PhysicsPlaygroundHandler handler;
 
     private void updateHandler() {
-        
+        handler.convexPoints = PhysicsPlaygroundHandler.constructConvexPoints(
+                -BIRD_WIDTH / 2.f, -BIRD_HEIGHT / 2.f + vertPosition,
+                BIRD_WIDTH, BIRD_HEIGHT);
+        Point origin = new Point(0, vertPosition);
+        Point[] array = (Point[]) handler.convexPoints.toArray();
+        for (int i = 0; i < array.length; i++) {
+            array[i] = MathComplement.rotate(array[i], origin, getAngle());
+        }
     }
 
     public BirdController() {
@@ -74,6 +81,7 @@ public class BirdController {
             currentDeltaTime += time;
             vertPosition = (float) Math.sin(currentDeltaTime * 3) * 0.03f;
         }
+        updateHandler();
         return null;
     }
 

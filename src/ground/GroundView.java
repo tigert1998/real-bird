@@ -17,11 +17,13 @@ public class GroundView {
 
     public void draw() {
         float anchor = groundController.getAnchor();
-        picture.place(-backgroundWidth / 2.f - anchor * backgroundWidth, -backgroundHeight / 2.f,
+        picture.place(
+                -backgroundWidth / 2.f - anchor * backgroundWidth / 2.f, -backgroundHeight / 2.f,
                 backgroundWidth, picture.getHeight(),
                 backgroundWidth, backgroundHeight, 0, 0);
         picture.draw();
-        picture.place(backgroundWidth / 2.f - anchor * backgroundWidth, -backgroundHeight / 2.f,
+        picture.place(
+                backgroundWidth / 2.f - anchor * backgroundWidth / 2.f, -backgroundHeight / 2.f,
                 backgroundWidth, picture.getHeight(),
                 backgroundWidth, backgroundHeight, 0, 0);
         picture.draw();
