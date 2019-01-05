@@ -41,4 +41,12 @@ public class PhysicsPlayground {
             numbHandlers.add(handler);
         return handler;
     }
+
+    public void removeHandler(boolean isSensitive, PhysicsPlaygroundHandler handler) {
+        if (isSensitive) {
+            sensitiveHandlers.remove(handler);
+        } else {
+            numbHandlers.remove(handler);
+        }
+    }
 }

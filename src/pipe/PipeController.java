@@ -9,7 +9,7 @@ public class PipeController {
     private final static float MOVE_SPEED = .8f;
     private final static float HORI_GAP = 1.2f;
     private final static float MAX_RAND_Y = .4f;
-    private final static int QUEUE_SIZE = 4;
+    private final static int QUEUE_SIZE = 3;
 
     final static float PIPE_WIDTH =
             2.f * Settings.getPipeUpPosition().width / Settings.getSkylinePosition().width;
@@ -62,8 +62,10 @@ public class PipeController {
     private void clearRedundantPipes() {
         while (!pipeCornerPositions.isEmpty() && pipeCornerPositions.getFirst().x < -1 -PIPE_WIDTH) {
             pipeCornerPositions.pollFirst();
-            pipeUpHandlers.pollFirst();
-            pipeDownHandlers.pollFirst();
+            var handler = pipeUpHandlers.pollFirst();
+            PhysicsPlayground.shared.removeHandler(false, handler);
+            handler = pipeDownHandlers.pollFirst();
+            PhysicsPlayground.shared.removeHandler(false, handler);
         }
     }
 
