@@ -5,10 +5,8 @@ import bird.*;
 import ground.*;
 import oglutils.*;
 import org.lwjgl.opengl.*;
-import pipe.PipeController;
-import pipe.PipeView;
-import utils.Clock;
-import utils.Settings;
+import pipe.*;
+import utils.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL41C.*;
@@ -18,6 +16,7 @@ public class Application {
     private static final int WIDTH = 432;
     private static final int HEIGHT = 768;
     private static final Path RESOURCE_PATH = Paths.get(System.getProperty("user.dir"), "resources");
+    private static final PhysicsPlayground physicsPlayground = PhysicsPlayground.shared;
 
     private long window;
 
@@ -102,6 +101,10 @@ public class Application {
             float currentTime = (float) glfwGetTime();
             if (lastTime != null) clock.elapse(currentTime - lastTime);
             lastTime = currentTime;
+
+            if (physicsPlayground.hit()) {
+                System.exit(0);
+            }
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

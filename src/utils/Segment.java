@@ -23,4 +23,8 @@ public class Segment {
     public boolean intersects(Segment segment) {
         return unidirectionalIntersects(this, segment) && unidirectionalIntersects(segment, this);
     }
+
+    public String toString() {
+        return "{ source: " + source + ", destination: " + destination() + " }";
+    }
 }

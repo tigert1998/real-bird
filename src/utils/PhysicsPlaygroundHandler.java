@@ -5,6 +5,15 @@ import java.util.*;
 public class PhysicsPlaygroundHandler {
     public List<Point> convexPoints;
 
+    public String toString() {
+        if (convexPoints.isEmpty()) return "[ ]";
+        StringBuilder sb = new StringBuilder("[ " + convexPoints.get(0));
+        for (int i = 1; i < convexPoints.size(); i++)
+            sb.append(", ").append(convexPoints.get(i));
+        sb.append(" ]");
+        return new String(sb);
+    }
+
     static private boolean pointIsInner(Point point, PhysicsPlaygroundHandler handler) {
         int size = handler.convexPoints.size();
         for (int i = 0; i < handler.convexPoints.size(); i++) {
@@ -31,8 +40,10 @@ public class PhysicsPlaygroundHandler {
         for (int i = 0; i < aSize; i++) {
             Segment aSegment = new Segment(convexPoints.get(i), convexPoints.get((i + 1) % aSize));
             for (int j = 0; j < bSize; j++) {
-                Segment bSegment = new Segment(handler.convexPoints.get(j), convexPoints.get((j + 1) % bSize));
-                if (aSegment.intersects(bSegment)) return true;
+                Segment bSegment = new Segment(handler.convexPoints.get(j), handler.convexPoints.get((j + 1) % bSize));
+                if (aSegment.intersects(bSegment)) {
+                    return true;
+                }
             }
         }
         return false;

@@ -8,14 +8,25 @@ public class PhysicsPlayground {
     private List<PhysicsPlaygroundHandler> sensitiveHandlers = new ArrayList<>();
     private List<PhysicsPlaygroundHandler> numbHandlers = new ArrayList<>();
 
+    public String toString() {
+        StringBuilder sb = new StringBuilder("{ \"sensitiveHandlers\": ");
+        sb.append(sensitiveHandlers);
+        sb.append(", \"numbHandlers\": ");
+        sb.append(numbHandlers);
+        sb.append(" }");
+        return new String(sb);
+    }
+
     public boolean hit() {
         for (int i = 0; i < sensitiveHandlers.size(); i++) {
             for (int j = i + 1; j < sensitiveHandlers.size(); j++)
                 if (sensitiveHandlers.get(i).intersects(sensitiveHandlers.get(j)))
                     return true;
             for (PhysicsPlaygroundHandler numbHandler : numbHandlers) {
-                if (numbHandler.intersects(sensitiveHandlers.get(i)))
+                if (numbHandler.intersects(sensitiveHandlers.get(i))) {
+                    System.out.println(this);
                     return true;
+                }
             }
         }
         return false;

@@ -32,26 +32,31 @@ public class PipeController {
     }
 
     private void fillPipeDeque() {
-        if (pipeCornerPositions.isEmpty())
-            pipeCornerPositions.addLast(new Point(1 + HORI_GAP, randomPipeY()));
+        if (pipeCornerPositions.isEmpty()) {
+            addPipe(new Point(1 + HORI_GAP, randomPipeY()));
+        }
         while (pipeCornerPositions.size() < QUEUE_SIZE)
             randomlyAddPipe();
+    }
+
+    private void addPipe(Point point) {
+        pipeCornerPositions.addLast(point);
+        pipeDownHandlers.addLast(physicsPlayground.addHandler(false,
+                PhysicsPlaygroundHandler.constructConvexPoints(
+                        point.x, point.y,
+                        PIPE_WIDTH, PIPE_DOWN_HEIGHT
+                )));
+        pipeUpHandlers.addLast(physicsPlayground.addHandler(false,
+                PhysicsPlaygroundHandler.constructConvexPoints(
+                        point.x, point.y + PIPE_DOWN_HEIGHT + VERT_GAP,
+                        PIPE_WIDTH, PIPE_UP_HEIGHT
+                )));
     }
 
     private void randomlyAddPipe() {
         Point last = pipeCornerPositions.getLast();
         Point newLeftBottomCorner = new Point(last.x + HORI_GAP, randomPipeY());
-        pipeCornerPositions.addLast(newLeftBottomCorner);
-        pipeDownHandlers.addLast(physicsPlayground.addHandler(false,
-                PhysicsPlaygroundHandler.constructConvexPoints(
-                newLeftBottomCorner.x, newLeftBottomCorner.y,
-                PIPE_WIDTH, PIPE_DOWN_HEIGHT
-        )));
-        pipeUpHandlers.addLast(physicsPlayground.addHandler(false,
-                PhysicsPlaygroundHandler.constructConvexPoints(
-                newLeftBottomCorner.x, newLeftBottomCorner.y + PIPE_DOWN_HEIGHT + VERT_GAP,
-                PIPE_WIDTH, PIPE_UP_HEIGHT
-        )));
+        addPipe(newLeftBottomCorner);
     }
 
     private void clearRedundantPipes() {

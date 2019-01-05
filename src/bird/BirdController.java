@@ -28,12 +28,11 @@ public class BirdController {
 
     private void updateHandler() {
         handler.convexPoints = PhysicsPlaygroundHandler.constructConvexPoints(
-                -BIRD_WIDTH / 2.f, -BIRD_HEIGHT / 2.f + vertPosition,
+                -BIRD_WIDTH / 2.f, -BIRD_HEIGHT / 2.f + getVertPosition(),
                 BIRD_WIDTH, BIRD_HEIGHT);
-        Point origin = new Point(0, vertPosition);
-        Point[] array = (Point[]) handler.convexPoints.toArray();
-        for (int i = 0; i < array.length; i++) {
-            array[i] = MathComplement.rotate(array[i], origin, getAngle());
+        Point origin = new Point(0, getVertPosition());
+        for (int i = 0; i < handler.convexPoints.size(); i++) {
+            handler.convexPoints.set(i, MathComplement.rotate(handler.convexPoints.get(i), origin, getAngle()));
         }
     }
 

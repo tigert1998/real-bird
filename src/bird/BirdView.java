@@ -20,7 +20,9 @@ public class BirdView {
         Picture posture = postures[postureID];
         float postureWidth = posture.getWidth();
         float postureHeight = posture.getHeight();
-        posture.place(-postureWidth / 2, -postureHeight / 2 + birdController.getVertPosition() * backgroundHeight,
+        posture.place(
+                -postureWidth / 2,
+                -postureHeight / 2 + birdController.getVertPosition() * backgroundHeight / 2.f,
                 postureWidth, postureHeight,
                 backgroundWidth, backgroundHeight, -.5f, birdController.getAngle());
         posture.draw();

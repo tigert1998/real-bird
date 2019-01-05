@@ -17,4 +17,8 @@ public class Point {
     public float cross(Point point) {
         return this.x * point.y - this.y * point.x;
     }
+
+    public String toString() {
+        return "[" + x + ", " + y + "]";
+    }
 }
