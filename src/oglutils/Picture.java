@@ -29,6 +29,14 @@ public class Picture {
         }
     }
 
+    public static Picture[] picturesFromPositions(Picture resources, Rectangle[] rectangles) {
+        Picture[] result = new Picture[rectangles.length];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = new Picture(resources, rectangles[i]);
+        }
+        return result;
+    }
+
     private void releaseVertexBuffers() {
         if (vao != null) {
             glDeleteVertexArrays(vao);

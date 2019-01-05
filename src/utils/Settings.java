@@ -13,6 +13,7 @@ public class Settings {
     private static Rectangle groundPosition = null;
     private static Rectangle pipeDownPosition = null;
     private static Rectangle pipeUpPosition = null;
+    private static Rectangle[] bigNumberPositions = null;
 
     public static Rectangle getSkylinePosition() {
         return skylinePosition;
@@ -34,6 +35,10 @@ public class Settings {
         return pipeUpPosition;
     }
 
+    public static Rectangle[] getBigNumberPositions() {
+        return bigNumberPositions;
+    }
+
     static {
         Path settingFilePath = Paths.get(System.getProperty("user.dir"), "resources", "settings.xml");
         File xmlFile = settingFilePath.toFile();
@@ -48,12 +53,8 @@ public class Settings {
             pipeUpPosition = getPositionByName(doc, "pipe-up");
             pipeDownPosition = getPositionByName(doc, "pipe-down");
 
-            NodeList nodeList = doc.getElementsByTagName("bird-posture");
-            birdPosturePositions = new Rectangle[nodeList.getLength()];
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Element element = (Element) nodeList.item(i);
-                birdPosturePositions[i] = getPositionByElement(element);
-            }
+            birdPosturePositions = getPositionsByName(doc, "bird-posture");
+            bigNumberPositions = getPositionsByName(doc, "big-number");
         } catch (Exception exception) {
             System.out.println("Oops! An exception happened when loading \"settings.xml:\"");
             exception.printStackTrace();
@@ -72,6 +73,16 @@ public class Settings {
     static private Rectangle getPositionByName(Document document, String name) {
         Element element = (Element) document.getElementsByTagName(name).item(0);
         return getPositionByElement(element);
+    }
+
+    static private Rectangle[] getPositionsByName(Document document, String name) {
+        NodeList nodeList = document.getElementsByTagName(name);
+        Rectangle[] res = new Rectangle[nodeList.getLength()];
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element element = (Element) nodeList.item(i);
+            res[i] = getPositionByElement(element);
+        }
+        return res;
     }
 
     public static final float BIRD_RELATIVE_WIDTH =

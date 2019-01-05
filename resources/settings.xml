@@ -47,4 +47,67 @@
         <width>26</width>
         <height>121</height>
     </pipe-down>
+
+    <big-numbers>
+        <big-number idx="0">
+            <x>288</x>
+            <y>146</y>
+            <width>7</width>
+            <height>10</height>
+        </big-number>
+        <big-number idx="1">
+            <x>289</x>
+            <y>128</y>
+            <width>7</width>
+            <height>10</height>
+        </big-number>
+        <big-number idx="2">
+            <x>289</x>
+            <y>112</y>
+            <width>7</width>
+            <height>10</height>
+        </big-number>
+        <big-number idx="3">
+            <x>289</x>
+            <y>96</y>
+            <width>7</width>
+            <height>10</height>
+        </big-number>
+        <big-number idx="4">
+            <x>287</x>
+            <y>73</y>
+            <width>7</width>
+            <height>10</height>
+        </big-number>
+        <big-number idx="5">
+            <x>287</x>
+            <y>61</y>
+            <width>7</width>
+            <height>10</height>
+        </big-number>
+        <big-number idx="6">
+            <x>165</x>
+            <y>1</y>
+            <width>7</width>
+            <height>10</height>
+        </big-number>
+        <big-number idx="7">
+            <x>175</x>
+            <y>1</y>
+            <width>7</width>
+            <height>10</height>
+        </big-number>
+        <big-number idx="8">
+            <x>185</x>
+            <y>1</y>
+            <width>7</width>
+            <height>10</height>
+        </big-number>
+        <big-number idx="9">
+            <x>195</x>
+            <y>1</y>
+            <width>7</width>
+            <height>10</height>
+        </big-number>
+    </big-numbers>
 </settings>

@@ -2,6 +2,7 @@ import java.awt.*;
 import java.nio.file.*;
 
 import bird.*;
+import counter.*;
 import ground.*;
 import oglutils.*;
 import org.lwjgl.opengl.*;
@@ -25,12 +26,15 @@ public class Application {
     private Picture skyline;
 
     private Clock clock = new Clock();
-    private BirdView birdView;
+
     private BirdController birdController;
+    private BirdView birdView;
     private GroundController groundController;
     private GroundView groundView;
     private PipeController pipeController;
     private PipeView pipeView;
+    private CounterController counterController;
+    private CounterView counterView;
 
     private void setState(State state) {
         this.state = state;
@@ -77,11 +81,8 @@ public class Application {
         skyline.place(-1, -1, 2, 2, .5f);
 
         birdController = new BirdController();
-        birdView = new BirdView(birdController, new Picture[] {
-                new Picture(resources, Settings.getBirdPosturePositions()[0]),
-                new Picture(resources, Settings.getBirdPosturePositions()[1]),
-                new Picture(resources, Settings.getBirdPosturePositions()[2])
-        });
+        birdView = new BirdView(birdController,
+                Picture.picturesFromPositions(resources, Settings.getBirdPosturePositions()));
 
         groundController = new GroundController();
         groundView = new GroundView(groundController,
@@ -91,6 +92,10 @@ public class Application {
         pipeView = new PipeView(pipeController,
                 new Picture(resources, Settings.getPipeUpPosition()),
                 new Picture(resources, Settings.getPipeDownPosition()));
+
+        counterController = new CounterController();
+        counterView = new CounterView(counterController,
+                Picture.picturesFromPositions(resources, Settings.getBigNumberPositions()));
 
         clock.register(birdController::elapse);
         clock.register(groundController::elapse);
