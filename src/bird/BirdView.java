@@ -1,17 +1,18 @@
 package bird;
 
 import oglutils.*;
+import utils.*;
 
 public class BirdView {
+    private static final float backgroundWidth = Settings.getSkylinePosition().width;
+    private static final float backgroundHeight = Settings.getSkylinePosition().height;
+
     private BirdController birdController;
     private Picture[] postures;
-    private int backgroundWidth, backgroundHeight;
 
-    public BirdView(BirdController birdController, Picture[] postures, int backgroundWidth, int backgroundHeight) {
+    public BirdView(BirdController birdController, Picture[] postures) {
         this.birdController = birdController;
         this.postures = postures;
-        this.backgroundWidth = backgroundWidth;
-        this.backgroundHeight = backgroundHeight;
     }
 
     public void draw() {

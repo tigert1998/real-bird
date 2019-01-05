@@ -74,12 +74,11 @@ public class Application {
                 new Picture(resources, Settings.getBirdPosturePositions()[0]),
                 new Picture(resources, Settings.getBirdPosturePositions()[1]),
                 new Picture(resources, Settings.getBirdPosturePositions()[2])
-        }, skyline.getWidth(), skyline.getHeight());
+        });
 
         GroundController groundController = new GroundController();
         groundView = new GroundView(groundController,
-                new Picture(resources, Settings.getGroundPosition()),
-                skyline.getWidth(), skyline.getHeight());
+                new Picture(resources, Settings.getGroundPosition()));
 
         pipeController = new PipeController();
         pipeView = new PipeView(pipeController,

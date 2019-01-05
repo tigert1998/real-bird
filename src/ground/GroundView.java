@@ -1,17 +1,18 @@
 package ground;
 
 import oglutils.*;
+import utils.*;
 
 public class GroundView {
+    private static final float backgroundWidth = Settings.getSkylinePosition().width;
+    private static final float backgroundHeight = Settings.getSkylinePosition().height;
+
     private GroundController groundController;
     private Picture picture;
-    private int backgroundWidth, backgroundHeight;
 
-    public GroundView(GroundController groundController, Picture picture, int backgroundWidth, int backgroundHeight) {
+    public GroundView(GroundController groundController, Picture picture) {
         this.groundController = groundController;
         this.picture = picture;
-        this.backgroundWidth = backgroundWidth;
-        this.backgroundHeight = backgroundHeight;
     }
 
     public void draw() {

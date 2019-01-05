@@ -1,7 +1,7 @@
 package ground;
 
 public class GroundController {
-    private static float MOVE_SPEED = .3f;
+    private final static float MOVE_SPEED = .4f;
     private float anchor = 0;
 
     public Void elapse(Float time) {

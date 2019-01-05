@@ -5,7 +5,8 @@ import java.nio.file.*;
 
 import static org.lwjgl.opengl.GL41C.*;
 
-import utils.*;
+import utils.Point;
+
 import static utils.MathComplement.*;
 
 public class Picture {
@@ -101,13 +102,13 @@ public class Picture {
                       float widthInScreen, float heightInScreen,
                       float screenWidth, float screenHeight,
                       float z, float angle) {
-        Pair origin = new Pair(xInScreen + widthInScreen / 2, yInScreen + heightInScreen / 2);
-        Pair rightTop = rotate(new Pair(xInScreen + widthInScreen, yInScreen + heightInScreen), origin, angle);
-        Pair leftTop = rotate(new Pair(xInScreen, yInScreen + heightInScreen), origin, angle);
-        Pair leftBottom = rotate(new Pair(xInScreen, yInScreen), origin, angle);
-        Pair rightBottom = rotate(new Pair(xInScreen + widthInScreen, yInScreen), origin, angle);
+        Point origin = new Point(xInScreen + widthInScreen / 2, yInScreen + heightInScreen / 2);
+        Point rightTop = rotate(new Point(xInScreen + widthInScreen, yInScreen + heightInScreen), origin, angle);
+        Point leftTop = rotate(new Point(xInScreen, yInScreen + heightInScreen), origin, angle);
+        Point leftBottom = rotate(new Point(xInScreen, yInScreen), origin, angle);
+        Point rightBottom = rotate(new Point(xInScreen + widthInScreen, yInScreen), origin, angle);
 
-        Pair divider = new Pair(screenWidth / 2, screenHeight / 2);
+        Point divider = new Point(screenWidth / 2, screenHeight / 2);
         rightTop.divide(divider);
         leftTop.divide(divider);
         leftBottom.divide(divider);
