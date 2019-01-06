@@ -64,15 +64,24 @@ public class PipeController {
         addPipe(newLeftBottomCorner);
     }
 
+    private void removeFirstPipe() {
+        Point point = pipeCornerPositions.pollFirst();
+        var handler = pipeUpHandlers.pollFirst();
+        PhysicsPlayground.shared.removeHandler(false, handler);
+        handler = pipeDownHandlers.pollFirst();
+        PhysicsPlayground.shared.removeHandler(false, handler);
+        pipePassed.remove(point);
+    }
+
     private void clearRedundantPipes() {
         while (!pipeCornerPositions.isEmpty() && pipeCornerPositions.getFirst().x < -1 -Settings.PIPE_RELATIVE_WIDTH) {
-            Point point = pipeCornerPositions.pollFirst();
-            var handler = pipeUpHandlers.pollFirst();
-            PhysicsPlayground.shared.removeHandler(false, handler);
-            handler = pipeDownHandlers.pollFirst();
-            PhysicsPlayground.shared.removeHandler(false, handler);
-            pipePassed.remove(point);
+            removeFirstPipe();
         }
+    }
+
+    private void removeAllPipes() {
+        while (!pipeCornerPositions.isEmpty())
+            removeFirstPipe();
     }
 
     private void checkBirdPass() {
@@ -119,6 +128,7 @@ public class PipeController {
         this.state = state;
         switch (state) {
             case READY:
+                removeAllPipes();
                 break;
             case STARTED:
                 fillPipeDeque();

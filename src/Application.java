@@ -41,6 +41,7 @@ public class Application {
         birdController.setState(state);
         pipeController.setState(state);
         groundController.setState(state);
+        counterController.setState(state);
     }
 
     private void initGL() {
@@ -65,6 +66,9 @@ public class Application {
                 if (state == State.READY)
                     setState(State.STARTED);
                 birdController.tap();
+            } else if (key == 'R') {
+                if (state == State.ENDED)
+                    setState(State.READY);
             }
         });
         glfwMakeContextCurrent(this.window);
@@ -126,7 +130,7 @@ public class Application {
             birdView.draw();
             counterView.draw();
 
-            if (state != State.ENDED && physicsPlayground.hit()) {
+            if (state == State.STARTED && physicsPlayground.hit()) {
                 setState(State.ENDED);
             }
 
