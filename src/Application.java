@@ -88,7 +88,10 @@ public class Application {
         groundView = new GroundView(groundController,
                 new Picture(resources, Settings.getGroundPosition()));
 
-        pipeController = new PipeController();
+        pipeController = new PipeController(Void -> {
+            counterController.addCount();
+            return null;
+        });
         pipeView = new PipeView(pipeController,
                 new Picture(resources, Settings.getPipeUpPosition()),
                 new Picture(resources, Settings.getPipeDownPosition()));
@@ -121,6 +124,7 @@ public class Application {
             groundView.draw();
             pipeView.draw();
             birdView.draw();
+            counterView.draw();
 
             if (state != State.ENDED && physicsPlayground.hit()) {
                 setState(State.ENDED);

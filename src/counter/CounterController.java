@@ -1,13 +1,13 @@
 package counter;
 
 public class CounterController {
-    private int counter = 0;
+    private int count = 0;
 
-    public void addCounter() {
-        counter++;
+    public void addCount() {
+        count++;
     }
 
-    int getCounter() {
-        return counter;
+    int getCount() {
+        return count;
     }
 }

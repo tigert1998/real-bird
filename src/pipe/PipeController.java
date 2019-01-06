@@ -3,6 +3,7 @@ package pipe;
 import utils.*;
 
 import java.util.*;
+import java.util.function.*;
 
 public class PipeController {
     final static float VERT_GAP = .45f;
@@ -18,11 +19,17 @@ public class PipeController {
     Deque<Point> pipeCornerPositions = new ArrayDeque<>();
     private Deque<PhysicsPlaygroundHandler> pipeDownHandlers = new ArrayDeque<>();
     private Deque<PhysicsPlaygroundHandler> pipeUpHandlers = new ArrayDeque<>();
+    private Map<Point, Boolean> pipePassed = new HashMap<>();
+    private Function<Void, Void> addCountCallback;
 
     private State state = State.READY;
 
     private static float randomPipeY() {
         return (float) Math.random() * (MAX_RAND_Y - MIN_RAND_Y) + MIN_RAND_Y;
+    }
+
+    public PipeController(Function<Void, Void> addCountCallback) {
+        this.addCountCallback = addCountCallback;
     }
 
     private void fillPipeDeque() {
@@ -48,6 +55,7 @@ public class PipeController {
                         Settings.PIPE_RELATIVE_WIDTH,
                         Settings.PIPE_UP_RELATIVE_HEIGHT
                 )));
+        pipePassed.put(point, false);
     }
 
     private void randomlyAddPipe() {
@@ -58,11 +66,24 @@ public class PipeController {
 
     private void clearRedundantPipes() {
         while (!pipeCornerPositions.isEmpty() && pipeCornerPositions.getFirst().x < -1 -Settings.PIPE_RELATIVE_WIDTH) {
-            pipeCornerPositions.pollFirst();
+            Point point = pipeCornerPositions.pollFirst();
             var handler = pipeUpHandlers.pollFirst();
             PhysicsPlayground.shared.removeHandler(false, handler);
             handler = pipeDownHandlers.pollFirst();
             PhysicsPlayground.shared.removeHandler(false, handler);
+            pipePassed.remove(point);
+        }
+    }
+
+    private void checkBirdPass() {
+        for (Point point : pipeCornerPositions) {
+            if (pipePassed.get(point)) continue;
+            if (point.x < -Settings.PIPE_RELATIVE_WIDTH / 2) {
+                pipePassed.put(point, true);
+                if (addCountCallback != null) {
+                    addCountCallback.apply(null);
+                }
+            }
         }
     }
 
@@ -91,6 +112,7 @@ public class PipeController {
         }
         clearRedundantPipes();
         fillPipeDeque();
+        checkBirdPass();
     }
 
     public void setState(State state) {
