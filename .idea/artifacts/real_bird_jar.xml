@@ -13,10 +13,10 @@
       <element id="directory" name="shaders">
         <element id="dir-copy" path="$PROJECT_DIR$/shaders" />
       </element>
-      <element id="extracted-dir" path="$USER_HOME$/Downloads/lwjgl-3.2.1/lwjgl/lwjgl-natives-macos.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/Downloads/lwjgl-3.2.1/lwjgl-opengl/lwjgl-opengl-natives-macos.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/Downloads/lwjgl-3.2.1/lwjgl-glfw/lwjgl-glfw-natives-macos.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/Downloads/lwjgl-3.2.1/lwjgl-stb/lwjgl-stb-natives-macos.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/lwjgl-3.2.1/lwjgl-stb/lwjgl-stb-natives-windows.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/lwjgl-3.2.1/lwjgl-opengl/lwjgl-opengl-natives-windows.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/lwjgl-3.2.1/lwjgl/lwjgl-natives-windows.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/lwjgl-3.2.1/lwjgl-glfw/lwjgl-glfw-natives-windows.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

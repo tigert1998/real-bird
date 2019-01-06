@@ -2,6 +2,11 @@
 
 Another flappy bird, implemented with Java and rendered with OpenGL wrapper [LWJGL](https://www.lwjgl.org/).
 
+## Prerequisite
+
+- JDK 8 or higher
+- OpenGL 4.1 or higher
+
 ## Build
 
 - Download latest LWJGL release from [here](https://github.com/LWJGL/lwjgl3/releases). Plus, create a directory `lib` in root and copy these package to `lib`:
