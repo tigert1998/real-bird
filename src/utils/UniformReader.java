@@ -8,7 +8,9 @@ import java.nio.file.*;
 
 public class UniformReader {
     static public InputStream getInputStream(Path path) {
-        InputStream inputStream = UniformReader.class.getResourceAsStream("/" + path.toString());
+        StringBuilder unixPathString = new StringBuilder("");
+        path.forEach(element -> unixPathString.append("/").append(element));
+        InputStream inputStream = UniformReader.class.getResourceAsStream(new String(unixPathString));
         if (inputStream == null) {
             // not in jar
             Path realPath = Paths.get(System.getProperty("user.dir"), path.toString());
