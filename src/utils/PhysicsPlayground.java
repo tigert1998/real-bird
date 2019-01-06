@@ -24,7 +24,6 @@ public class PhysicsPlayground {
                     return true;
             for (PhysicsPlaygroundHandler numbHandler : numbHandlers) {
                 if (numbHandler.intersects(sensitiveHandlers.get(i))) {
-                    System.out.println(this);
                     return true;
                 }
             }
