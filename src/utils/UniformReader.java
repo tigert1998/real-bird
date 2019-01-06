@@ -22,11 +22,22 @@ public class UniformReader {
     }
 
     static public byte[] getByteArray(Path path) {
+        final int BUFFER_SIZE = 1024;
+        InputStream inputStream = getInputStream(path);
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
         try {
-            return getInputStream(path).readAllBytes();
+            int nRead;
+            byte[] data = new byte[BUFFER_SIZE];
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            buffer.flush();
         } catch (Exception exception) {
             return null;
         }
+
+        return buffer.toByteArray();
     }
 
     static public ByteBuffer getByteBuffer(Path path) {

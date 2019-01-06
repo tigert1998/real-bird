@@ -66,7 +66,7 @@ public class PipeController {
 
     private void removeFirstPipe() {
         Point point = pipeCornerPositions.pollFirst();
-        var handler = pipeUpHandlers.pollFirst();
+        PhysicsPlaygroundHandler handler = pipeUpHandlers.pollFirst();
         PhysicsPlayground.shared.removeHandler(false, handler);
         handler = pipeDownHandlers.pollFirst();
         PhysicsPlayground.shared.removeHandler(false, handler);
@@ -97,9 +97,9 @@ public class PipeController {
     }
 
     private void updatePipes(Float time) {
-        var cornerPositionsIterator = pipeCornerPositions.iterator();
-        var downHandlersIterator = pipeDownHandlers.iterator();
-        var upHandlersIterator = pipeUpHandlers.iterator();
+        Iterator<Point> cornerPositionsIterator = pipeCornerPositions.iterator();
+        Iterator<PhysicsPlaygroundHandler> downHandlersIterator = pipeDownHandlers.iterator();
+        Iterator<PhysicsPlaygroundHandler> upHandlersIterator = pipeUpHandlers.iterator();
 
         while (cornerPositionsIterator.hasNext()) {
             {
@@ -107,13 +107,13 @@ public class PipeController {
                 point.x -= time * MOVE_SPEED;
             }
             {
-                var handler = downHandlersIterator.next();
+                PhysicsPlaygroundHandler handler = downHandlersIterator.next();
                 handler.convexPoints.forEach(point -> {
                     point.x -= time * MOVE_SPEED;
                 });
             }
             {
-                var handler = upHandlersIterator.next();
+                PhysicsPlaygroundHandler handler = upHandlersIterator.next();
                 handler.convexPoints.forEach(point -> {
                     point.x -= time * MOVE_SPEED;
                 });

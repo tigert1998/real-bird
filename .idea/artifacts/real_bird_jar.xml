@@ -3,20 +3,20 @@
     <output-path>$PROJECT_DIR$/out/artifacts/real_bird_jar</output-path>
     <root id="archive" name="real-bird.jar">
       <element id="module-output" name="real-bird" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-glfw-natives-macos.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-opengl-natives-macos.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-glfw.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-stb.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-stb-natives-macos.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-opengl.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-natives-macos.jar" path-in-jar="/" />
       <element id="directory" name="resources">
         <element id="dir-copy" path="$PROJECT_DIR$/resources" />
       </element>
       <element id="directory" name="shaders">
         <element id="dir-copy" path="$PROJECT_DIR$/shaders" />
       </element>
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/lwjgl-3.2.1/lwjgl/lwjgl-natives-macos.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/lwjgl-3.2.1/lwjgl-opengl/lwjgl-opengl-natives-macos.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/lwjgl-3.2.1/lwjgl-glfw/lwjgl-glfw-natives-macos.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/lwjgl-3.2.1/lwjgl-stb/lwjgl-stb-natives-macos.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
