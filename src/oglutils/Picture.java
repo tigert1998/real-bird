@@ -10,7 +10,7 @@ import utils.Point;
 import static utils.MathComplement.*;
 
 public class Picture {
-    private static final Path SHADERS_PATH = Paths.get(System.getProperty("user.dir"), "shaders");
+    private static final Path SHADERS_PATH = Paths.get("shaders");
 
     private static Shader shader = null;
     private Texture texture;

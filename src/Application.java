@@ -16,7 +16,7 @@ import static org.lwjgl.opengl.GL41C.*;
 public class Application {
     private static final int WIDTH = 432;
     private static final int HEIGHT = 768;
-    private static final Path RESOURCE_PATH = Paths.get(System.getProperty("user.dir"), "resources");
+    private static final Path RESOURCE_PATH = Paths.get("resources");
     private static final PhysicsPlayground physicsPlayground = PhysicsPlayground.shared;
 
     private State state = State.READY;

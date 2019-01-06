@@ -40,13 +40,12 @@ public class Settings {
     }
 
     static {
-        Path settingFilePath = Paths.get(System.getProperty("user.dir"), "resources", "settings.xml");
-        File xmlFile = settingFilePath.toFile();
+        InputStream inputStream = UniformReader.getInputStream(Paths.get("resources", "settings.xml"));
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 
         try {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(xmlFile);
+            Document doc = dBuilder.parse(inputStream);
 
             skylinePosition = getPositionByName(doc, "skyline");
             groundPosition = getPositionByName(doc, "ground");

@@ -4,6 +4,8 @@ import java.nio.*;
 import java.nio.file.*;
 
 import org.lwjgl.stb.*;
+import utils.*;
+
 import static org.lwjgl.opengl.GL41C.*;
 
 public class Texture {
@@ -22,9 +24,9 @@ public class Texture {
 
     private LoadImageResult loadImage(Path path) {
         int[] widthPointer = new int[1], heightPointer = new int[1], nrChannelsPointer = new int[1];
-        ByteBuffer byteBuffer = STBImage.stbi_load(path.toString(),
-                widthPointer, heightPointer, nrChannelsPointer, 0);
+        ByteBuffer byteBuffer = UniformReader.getByteBuffer(path);
         if (byteBuffer == null) return null;
+        byteBuffer = STBImage.stbi_load_from_memory(byteBuffer, widthPointer, heightPointer, nrChannelsPointer, 0);
         return new LoadImageResult(byteBuffer, widthPointer[0], heightPointer[0], nrChannelsPointer[0]);
     }
 

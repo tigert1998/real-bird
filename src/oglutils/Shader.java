@@ -1,5 +1,7 @@
 package oglutils;
 
+import utils.*;
+
 import java.io.*;
 import java.nio.file.*;
 
@@ -10,8 +12,8 @@ public class Shader {
     private int programID;
 
     public Shader(Path vsPath, Path fsPath) throws IOException, ShaderCompileErrorException, ShaderLinkErrorException {
-        String vsSource = new String(Files.readAllBytes(vsPath));
-        String fsSource = new String(Files.readAllBytes(fsPath));
+        String vsSource = new String(UniformReader.getByteArray(vsPath));
+        String fsSource = new String(UniformReader.getByteArray(fsPath));
         int vsID = compile(GL_VERTEX_SHADER, vsSource, vsPath);
         int fsID = compile(GL_FRAGMENT_SHADER, fsSource, fsPath);
         programID = link(vsID, fsID, vsPath, fsPath);
